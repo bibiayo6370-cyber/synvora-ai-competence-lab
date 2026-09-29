@@ -1,0 +1,12 @@
+{
+  "name": "synvora-ai-competence-lab",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=24.21.0"
+  },
+  "scripts": {
+    "check": "pnpm -r run check"
+  }
+}
