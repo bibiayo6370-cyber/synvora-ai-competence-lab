@@ -39,3 +39,25 @@ Record significant interactions such as:
 Do not record every prompt, conversational clarification, spelling correction, or routine command.
 
 Entries should describe what actually happened. Do not reconstruct or exaggerate AI contributions for presentation purposes.
+
+### 2026-10-08 — Shared Contracts Foundation
+
+**Phase:** Step 16 — Shared Contracts Implementation
+
+**Engineering task:** Establish the `@synvora/shared` workspace package and implement the first reusable API health-response contract.
+
+**AI tool:** ChatGPT
+
+**AI contribution:** Assisted with package structure, TypeScript configuration, Zod schema design, automated test cases, and troubleshooting Node.js and pnpm environment configuration.
+
+**Human review and decision:** Approved the minimal shared-package structure, adopted native WSL Node.js through NVM, aligned the project with pnpm 12.10.1, and retained pnpm's automatically selected store on the Windows-mounted filesystem.
+
+**Corrections / rejected suggestions:** Removed the obsolete `node.exe` alias, corrected the missing Git ignore rule for `node_modules/`, and resolved the apparent pnpm version mismatch caused by the repository's package-manager pin.
+
+**Validation performed:** TypeScript check passed. Vitest executed four tests successfully, confirming acceptance of a valid health response and rejection of three invalid responses.
+
+**Outcome:** First reusable shared contract implemented and validated. Frontend/backend integration remains pending.
+
+**Git reference:** Pending implementation checkpoint.
+
+**Related documentation:** ADR-005, ADR-008, ADR-009, ADR-010.
