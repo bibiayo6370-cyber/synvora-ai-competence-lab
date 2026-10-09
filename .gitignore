@@ -1,2 +1,5 @@
 # Node.js and pnpm dependencies
 node_modules/
+
+# Compiled TypeScript output
+dist/
