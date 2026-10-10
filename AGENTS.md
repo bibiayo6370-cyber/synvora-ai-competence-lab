@@ -258,3 +258,30 @@ A change is complete when:
 4. Relevant checks have been run.
 5. Documentation is updated when required.
 6. Git status is understood and unintended changes are absent.
+
+## TypeScript and ESM Conventions
+
+Node.js workspaces use ESM with TypeScript NodeNext module resolution.
+
+- Use explicit `.js` extensions for relative imports in TypeScript source.
+- Use package names for workspace imports, such as `@synvora/shared`.
+- Compile TypeScript to JavaScript before Node.js runtime execution.
+- Do not import `.ts` files directly in Node.js application source.
+- Do not commit generated `dist/` output.
+- Build shared packages before applications that consume their compiled exports.
+- Keep frontend-specific TypeScript configuration compatible with Vite.
+
+## AI Agent Execution and Review
+
+For each implementation assignment:
+
+1. Inspect the relevant existing code, ADRs, and documentation.
+2. Explain the intended approach before making substantial changes.
+3. Keep modifications within the authorized task scope.
+4. Run applicable TypeScript checks, builds, and automated tests.
+5. Report commands executed, results, limitations, and outstanding risks.
+6. Do not create Git commits, push branches, or alter Git history without explicit human authorization.
+7. Do not access external credentials or unrelated files.
+8. Record material AI-assisted engineering contributions in the AI Engineering Log.
+
+Human review is required before implementation is accepted.

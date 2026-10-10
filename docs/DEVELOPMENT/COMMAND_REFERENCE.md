@@ -348,3 +348,68 @@ Track `pnpm-lock.yaml`; ignore `node_modules/` using `.gitignore`. The unstaged 
 ### AI engineering evidence
 
 Record significant ChatGPT/Codex contributions, human decisions, corrections, validation, and Git references in `docs/AI-ENGINEERING/AI_ENGINEERING_LOG.md`. Do not claim tools were used unless supported by actual work.
+
+## 12. API HTTP Integration Testing (2026-10-10)
+
+### Dependency installation (reference only)
+
+```bash
+pnpm --filter @synvora/api add -D vitest@^5.0.3 supertest @types/supertest @types/node@^24
+```
+
+Installed API development dependencies: Vitest 5.0.3, Supertest 7.3.1,
+@types/supertest 7.2.1, and @types/node 24.19.1. The direct Node types now
+match the Node 24 runtime; transitive dependencies still include Node 26 types.
+
+### Validate shared and API packages
+
+Run from the repository root:
+
+```bash
+pnpm --filter @synvora/shared run check
+pnpm --filter @synvora/shared run build
+pnpm --filter @synvora/shared run test
+pnpm --filter @synvora/api run check
+pnpm --filter @synvora/api run build
+pnpm --filter @synvora/api run test
+git diff --check
+git status --short
+git diff
+```
+
+The API test script explicitly builds shared before running Vitest, so it uses
+the current compiled shared exports even when shared has not previously been
+built. Build shared before running the standalone API check or build commands.
+No root orchestration or dedicated Vitest configuration is required; Vitest's
+default Node environment and test discovery cover `src/app.test.ts`.
+
+The API check uses `tsconfig.test.json` to check both production and test source
+without emitting files. The production build retains `tsconfig.json`, which
+excludes tests. Relative source imports use `.js`; shared imports use
+`@synvora/shared`.
+
+HTTP tests verify health status 200, JSON content type, service identity, shared
+schema validation, and an unsupported route's 404 status. Importing `app` does
+not execute `server.ts`; Supertest manages temporary localhost listeners.
+Restricted environments must permit local socket binding to run these tests.
+
+### Assignment 001 validation evidence
+
+Shared check/build and API check/build passed. Shared tests passed all four
+cases. The first API test run was blocked by sandbox `listen EPERM` on
+127.0.0.1; the same command passed both HTTP tests when rerun with approved
+listener permission. `git diff --check` passed.
+Human review is pending; no Git checkpoint has been created.
+
+### Independent human verification — 2026-10-10
+
+The implementation was independently validated in the WSL development
+environment after Codex completed Assignment 001.
+
+All shared and API checks and builds passed. All six automated tests passed:
+four shared schema tests and two API HTTP integration tests.
+
+The independent API test execution completed without the earlier sandbox
+localhost listener restriction.
+
+See docs/AI-ENGINEERING/AI_ENGINEERING_LOG.md for the human review decision.

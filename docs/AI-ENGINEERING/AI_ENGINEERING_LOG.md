@@ -61,3 +61,72 @@ Entries should describe what actually happened. Do not reconstruct or exaggerate
 **Git reference:** Pending implementation checkpoint.
 
 **Related documentation:** ADR-005, ADR-008, ADR-009, ADR-010.
+
+### 2026-10-10 — Assignment 001: API HTTP Integration Testing
+
+**Phase:** Backend testing foundation.
+
+**Engineering task:** Establish reproducible Vitest + Supertest HTTP integration
+tests for the existing Express API without changing application behavior.
+
+**AI tool:** Codex.
+
+**AI contribution:** Installed API-local Vitest 5.0.3, Supertest 7.3.1, and
+@types/supertest 7.2.1; aligned direct @types/node with Node 24 (24.19.1).
+Added two HTTP tests, an explicit shared-build-before-test script, and a
+no-emit TypeScript configuration covering production and test source.
+Updated the command reference. Preserved the existing AGENTS.md modification.
+
+**Human review and decision:** Implementation plan approved before changes.
+Permission granted for dependency registry/store access and a test rerun
+requiring localhost listener access. Implementation review remains pending.
+
+**Corrections / rejected suggestions:** No dedicated Vitest configuration was
+needed. The initial sandboxed install stalled without output and was interrupted;
+the approved retry succeeded. The initial HTTP test run failed with sandbox
+`listen EPERM` on 127.0.0.1; the same command passed with listener permission.
+
+**Validation performed:**
+
+- `pnpm --filter @synvora/shared run check` — passed.
+- `pnpm --filter @synvora/shared run build` — passed.
+- `pnpm --filter @synvora/shared run test` — four tests passed.
+- `pnpm --filter @synvora/api run check` — production and test source passed.
+- `pnpm --filter @synvora/api run build` — passed; output contains app/server
+  JavaScript and source maps, with no emitted tests.
+- `pnpm --filter @synvora/api run test` — initially blocked by sandbox binding;
+  approved rerun passed both HTTP tests and rebuilt shared successfully.
+- `git diff --check` — passed; final status and diff reviewed.
+
+**Outcome:** Health response status, content type, service identity, shared
+schema validity, and unsupported-route 404 behavior covered. Existing app and
+server source unchanged. No frontend/database changes. Tests require localhost
+binding permission; standalone API checks/builds require shared build output.
+Transitive dependencies retain Node 26 type packages despite direct alignment.
+
+**Git reference:** Pending human review; no commit or push performed.
+
+**Related documentation:** ADR-003, ADR-005, ADR-008, ADR-009, ADR-010;
+docs/DEVELOPMENT/COMMAND_REFERENCE.md.
+
+**Human verification addendum — 2026-10-10:**
+
+The implementation was independently reviewed after Codex completed Assignment 001.
+
+The human reviewer inspected the API package configuration, test TypeScript
+configuration, HTTP integration tests, and documentation changes.
+
+Independent verification in the WSL development environment confirmed:
+
+- Shared TypeScript build and check passed.
+- All four shared schema tests passed.
+- API TypeScript check and production build passed.
+- Both API HTTP integration tests passed.
+- git diff --check passed.
+- No unintended repository changes were identified.
+
+The earlier localhost listener EPERM restriction did not recur during
+independent testing.
+
+**Human decision:** Assignment 001 implementation accepted.
+Git checkpoint authorization remains subject to final staging review.

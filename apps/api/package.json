@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "tsc --noEmit -p tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.test.json",
+    "test": "pnpm --filter @synvora/shared run build && vitest run",
     "dev": "pnpm run build && node --watch dist/server.js",
     "start": "node dist/server.js",
     "build": "tsc -p tsconfig.json"
@@ -15,7 +16,10 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/node": "^26.6.4",
-    "typescript": "^7.0.2"
+    "@types/node": "^24.19.1",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.3.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
   }
 }
