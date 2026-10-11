@@ -413,3 +413,104 @@ The independent API test execution completed without the earlier sandbox
 localhost listener restriction.
 
 See docs/AI-ENGINEERING/AI_ENGINEERING_LOG.md for the human review decision.
+
+## 13. Assignment 002A — PostgreSQL, migrations, and verification
+
+### Local environment setup
+
+Use native WSL Node 24 and Docker Desktop with Ubuntu WSL integration enabled.
+Compose uses PostgreSQL `17.6-bookworm`, development port `55432`, test port
+`55433`, and distinct persistent volumes under Compose project `synvora-002a`.
+The databases are initialized as `synvora_dev` and `synvora_test` on fresh volumes.
+Existing volumes/data must be preserved. Do not use `down -v`, database drops,
+truncate, or volume deletion without explicit approval.
+
+Create ignored local files from `.env.example` in `infrastructure/docker/` and
+`apps/api/`. Generate different local passwords, update the matching connection
+URLs, and do not print, commit, or place credentials on command lines. The API
+requires localhost URLs naming the dedicated database. Do not overwrite existing
+`.env` files. Node scripts load `.env` through native `--env-file`.
+
+```bash
+# Read-only inventory of this project's resources
+docker volume ls --filter label=com.docker.compose.project=synvora-002a
+docker ps -a --filter label=com.docker.compose.project=synvora-002a
+
+# Creates missing services/volumes; preserves existing data
+docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.yaml up -d --wait
+
+# Verify real database names, not just pg_isready
+docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.yaml exec -T postgres-dev psql -U synvora -d synvora_dev -c 'SELECT current_database();'
+docker compose --env-file infrastructure/docker/.env -f infrastructure/docker/compose.yaml exec -T postgres-test psql -U synvora -d synvora_test -c 'SELECT current_database();'
+
+pnpm install --frozen-lockfile
+pnpm --filter @synvora/shared run check
+pnpm --filter @synvora/shared run build
+pnpm --filter @synvora/shared run test
+pnpm --filter @synvora/api run check
+pnpm --filter @synvora/api run build
+
+# Explicit schema modification: approve before agent execution
+pnpm --filter @synvora/api run db:migrate dev
+pnpm --filter @synvora/api run db:migrate test
+# Repeat both commands to verify zero pending migrations
+
+pnpm --filter @synvora/api run test
+# Writes/deletes only newly generated schemas in synvora_test; never resets public
+pnpm --filter @synvora/api run test:db
+# Explicit approval: creates and deletes only one new development smoke attempt
+pnpm --filter @synvora/api run test:restart
+pnpm --filter @synvora/api run start
+
+git diff --check
+git status --short --untracked-files=all
+git diff
+```
+
+API startup verifies applied migration checksums and refuses missing/outdated schema.
+Keep `apps/api/migrations/` with compiled runtime assets; do not commit `dist/`.
+The pnpm lockfile contains multiple YAML documents, including package-manager and
+workspace dependency sections. Preserve the entire file. Unit tests use test-only
+repository doubles; production and integration tests use PostgreSQL.
+
+### Daily retention cleanup — documented, not configured
+
+```bash
+pnpm --filter @synvora/api run db:cleanup
+```
+
+This command physically deletes expired development attempts and their children.
+Agent execution requires approval before deletion. API access expires after exactly
+168 hours even if cleanup never runs. Activity does not extend expiration.
+
+For a reproducible daily schedule, first independently review cleanup, build the
+API, and verify the command manually. Run `crontab -e` and add a line using your
+actual absolute project and Node paths, for example:
+
+```cron
+0 2 * * * cd /home/jtd/projects/synvora-ai-competence-lab/apps/api && /home/jtd/.nvm/versions/node/v24.21.0/bin/node --env-file=.env dist/db/cleanup.js >> /home/jtd/synvora-cleanup.log 2>&1
+```
+
+The time is 02:00 in the cron host's configured timezone; configure/verify that
+host timezone explicitly rather than assuming it matches Africa/Lagos. Check the
+installed entry with `crontab -l`, ensure the cron daemon, WSL, and Docker are
+running, and inspect the credential-free count/error log after a scheduled run.
+A sleeping/stopped WSL distro does not provide dependable scheduling. Production
+scheduling/backups require a later operational decision. This assignment does not
+install a cron entry and does not claim scheduled deletion is operational.
+
+### API behavior
+
+Create with `{ "challengeId": "001", "challengeVersion": "0.1" }` at
+`POST /api/attempts`; retain the returned secret without displaying/logging it.
+Send it only in `Authorization: Bearer ...` for attempt reads/writes. Protected
+responses use no-store. Missing/malformed secrets return 401; wrong-secret,
+unknown, and expired attempts return the same 404.
+
+Prediction/reveal/investigation/modification/validation/reflection routes implement
+server-authoritative progression. Invalid request shape is 400, stage conflict 409,
+rejected expression 422, and safe-but-failing validation 200. Reflection can complete
+a failing technical attempt after safe evaluation. Current draft must match the
+latest evaluated validation. Investigation/reflection/AI declaration are unassessed.
+Only public example feedback and aggregate fixture counts are returned. No report
+endpoint, UI, automated SOLO inference, or mastery scoring is implemented.

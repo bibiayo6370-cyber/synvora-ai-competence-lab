@@ -3,3 +3,8 @@ node_modules/
 
 # Compiled TypeScript output
 dist/
+
+# Local credentials
+.env
+.env.*
+!.env.example

@@ -8,7 +8,7 @@ This repository contains the SYNVORA platform implementation together with its s
 
 ## Project Status
 
-The repository is currently in the initial platform scaffolding phase.
+The shared health contract and Express HTTP testing foundation are established. Assignment 002A adds the PostgreSQL-backed attempt lifecycle and bounded expression validation; implementation acceptance is pending human review.
 
 The foundational Git repository, GitHub remote, pnpm workspace, TypeScript base configuration, and AI-assisted engineering rules have been established.
 
@@ -194,6 +194,10 @@ The initial repository scaffolding currently includes:
 * pnpm workspace configuration
 * Root `package.json`
 * Root TypeScript configuration
+* Shared Zod contracts and tests
+* Express attempt APIs and PostgreSQL repositories
+* Dedicated Docker PostgreSQL development/test services
+* Explicit SQL migrations and cleanup CLI
 * `AGENTS.md`
 * `README.md`
 
@@ -235,8 +239,15 @@ Never commit secrets, private keys, credentials, or local environment files cont
 
 ## Getting Started
 
-The project is currently being scaffolded.
+Follow section 13 of the Developer Command Reference for local environment files, Docker databases, builds, explicit migrations, and verification. Keep credentials in ignored environment files and preserve existing database volumes.
 
-The initial repository setup has already been completed. Application dependencies will be installed only after the root configuration and architecture baseline have been reviewed and approved.
+## Assignment 002A backend foundation
 
-At the current stage, avoid running dependency installation commands until the implementation workflow explicitly calls for them.
+The backend now implements shared attempt contracts, PostgreSQL evidence persistence,
+per-attempt bearer access, seven-day expiration, and bounded arithmetic validation.
+Docker Compose provisions separate `synvora_dev` and `synvora_test` services.
+Build shared before API, apply explicit migrations, and follow the setup/test/cleanup
+commands in `docs/DEVELOPMENT/COMMAND_REFERENCE.md` section 13. Local `.env` files
+are ignored and required. Daily cleanup is documented but not scheduled.
+Frontend and competence-report implementation remain later checkpoints.
+Implementation acceptance requires human review and the recorded verification results.

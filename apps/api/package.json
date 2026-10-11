@@ -6,17 +6,24 @@
   "scripts": {
     "check": "tsc --noEmit -p tsconfig.test.json",
     "test": "pnpm --filter @synvora/shared run build && vitest run",
-    "dev": "pnpm run build && node --watch dist/server.js",
-    "start": "node dist/server.js",
-    "build": "tsc -p tsconfig.json"
+    "dev": "pnpm --filter @synvora/shared run build && pnpm run build && node --env-file=.env --watch dist/server.js",
+    "start": "node --env-file=.env dist/server.js",
+    "build": "tsc -p tsconfig.json",
+    "db:migrate": "node --env-file=.env dist/db/migrate.js",
+    "test:db": "pnpm --filter @synvora/shared run build && SYNVORA_DB_TESTS=1 node --env-file=.env ./node_modules/vitest/vitest.mjs run",
+    "db:cleanup": "node --env-file=.env dist/db/cleanup.js",
+    "test:restart": "pnpm --filter @synvora/shared run build && pnpm run build && SYNVORA_RESTART_TEST=1 node --env-file=.env ./node_modules/vitest/vitest.mjs run"
   },
   "dependencies": {
     "@synvora/shared": "workspace:*",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.23.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^24.19.1",
+    "@types/pg": "^8.23.1",
     "@types/supertest": "^7.2.1",
     "supertest": "^7.3.1",
     "typescript": "^7.0.2",

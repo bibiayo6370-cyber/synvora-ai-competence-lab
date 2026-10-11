@@ -130,3 +130,106 @@ independent testing.
 
 **Human decision:** Assignment 001 implementation accepted.
 Git checkpoint authorization remains subject to final staging review.
+
+### 2026-10-10 — Assignment 002A: backend persistence and safe validation
+
+**Phase:** A–E complete; implementation acceptance pending human review.
+
+**Engineering task:** Implement dedicated Docker PostgreSQL foundation, explicit
+transactional migrations, shared contracts, bearer-protected attempt lifecycle,
+bounded expression interpretation, evidence capture, expiration, and cleanup.
+
+**AI tool:** Codex.
+
+**AI contribution:** Read-only plan followed by human-authorized implementation.
+Prepared separate synvora_dev/synvora_test services, generated ignored local
+credentials without printing them, implemented pg persistence/service/controller
+boundaries, parser/interpreter, shared Zod schemas, and automated coverage.
+Added ADR-011–013 and command/setup/retention documentation. No frontend or report
+implementation. No commits, pushes, or Git-history changes.
+
+**Human review and decision:** Implementation authorized with specific limits and
+staged reporting. Registry/dependency and Docker operations used explicit approval
+requests. Docker initially unavailable; human enabled and verified Ubuntu WSL
+integration and authorized resumption. Acceptance remains pending human review.
+
+**Corrections / rejected suggestions:** Initial lockfile concern was corrected:
+the pnpm lockfile contains multiple YAML documents, and existing workspace entries
+were already present in its second document. No lockfile architecture change needed.
+
+**Validation performed:** Dependency installation and frozen-lockfile verification
+passed. Added pg 8.23.1, @types/pg 8.23.1, and API-local Zod 4.6.5. Shared/API
+checks and compiled builds passed. Final root `pnpm run check` passed. Shared:
+12 tests; API unit/health HTTP: 43 tests; PostgreSQL/HTTP integration: 11 tests;
+compiled-server restart: 1 test. All 67 tests passed in their respective suites.
+The final database suite was rerun after adding explicit validation-row cascade
+and no-store assertions; all 11 passed again. Final API test-source check passed.
+
+Docker provisioned new dedicated volumes and healthy PostgreSQL services. Actual
+`current_database()` checks returned synvora_dev/synvora_test. Compiled migration
+CLI applied one migration to each and zero on rerun. Tests verified advisory-lock
+serialization, failed DDL/tracking rollback, checksum rejection, transactional
+attempt updates, authorization, expiration, safe expression retries, history cap,
+and cleanup cascades. Integration tests checked development counts remained
+unchanged and no test IDs appeared there. New random test schemas were removed.
+Final read-only database inspection showed one migration and zero attempts in
+each public schema, and zero remaining isolated test schemas. The subsequent
+strengthened rerun also passed its isolation and schema-removal hooks.
+
+The restart smoke test initially timed out with a 20-second startup allowance.
+A retry with a 60-second startup allowance passed an actual compiled server
+restart. The test removed only its newly created development attempt, with
+explicit approval. Physical cleanup CLI ran successfully and deleted zero rows.
+
+`git diff --check` passed. A separate whitespace scan covered new untracked files.
+Generated local database URLs/passwords were checked against every reviewable file
+without printing them; no matches. Local credential files remain ignored. Full
+tracked diffs and new source/documentation were reviewed; no Git staging or history
+operations were performed. Exact command/results and complete file inventory are
+in docs/AI-ENGINEERING/ASSIGNMENT_002A_VERIFICATION.md.
+
+**Outcome:** Backend checkpoint implemented and verified for human review.
+Daily cleanup is documented but not scheduled. No production deployment, account
+recovery, frontend, competence reporting, or automated understanding scoring.
+Docker services and named volumes remain available with their data preserved.
+
+**Git reference:** None; uncommitted work for human review.
+
+**Related documentation:** Assignment 002A, approved vertical-slice specification,
+ADR-011–013, Command Reference section 13.
+
+## 10 October 2026 — Assignment 002A corrective source review
+
+**Authorization:** Human source review completed; narrow corrective review of
+blank drafts, reflect-stage recovery, compiled restart readiness/diagnostics,
+and affected verification requested. No broader product changes authorized.
+
+**Contribution:** Confirmed shared modification schemas reject blank text and
+validation delegates plain-string rejection to the bounded parser. Reused the
+shared modification contract inside the application service to protect direct
+calls. Added shared, service, and PostgreSQL/HTTP blank-input regressions.
+Preserved the existing completion guard and made HTTP 409 feedback actionable
+with REVALIDATION_REQUIRED. Recovery tests verify rejection after safe evaluation
+blocks completion until the current draft is safely revalidated, including when
+restoring an earlier draft and when technical tests still fail.
+
+Preserved actual compiled-process restart verification. Added HTTP health
+readiness before each launch is accepted, bounded startup/shutdown handling,
+allowlisted lifecycle diagnostics without raw child output, and a negative
+startup test proving synthetic private output is suppressed.
+
+**Actual validation:** Shared check/build passed; shared tests 14 passed. API
+check passed; API unit tests 46 passed; PostgreSQL/HTTP integration 14 passed;
+compiled restart tests 2 passed, including the negative diagnostic case. Restart
+script also rebuilt shared/API successfully. All 76 tests passed with no
+corrective failures. Database suites used isolated synvora_test schemas and
+passed development-data isolation and schema-removal hooks. Subsequent restart
+cleanup removed only its newly created synvora_dev attempt, under existing
+authorization. git diff --check passed.
+
+**Scope/outcome:** Five source/test files and two verification/log documents
+changed in this correction. No shared-schema definition, dependency, migration,
+Docker configuration, or architecture change. Prior implementation remains
+uncommitted; no Git history operations performed. Daily cleanup remains
+documented but unscheduled. Human acceptance pending. Full command results and
+limitations are recorded in ASSIGNMENT_002A_VERIFICATION.md.

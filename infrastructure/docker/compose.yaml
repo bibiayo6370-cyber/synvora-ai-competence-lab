@@ -1,0 +1,35 @@
+name: synvora-002a
+services:
+  postgres-dev:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_USER: synvora
+      POSTGRES_PASSWORD: ${SYNVORA_DEV_PASSWORD:?Set SYNVORA_DEV_PASSWORD}
+      POSTGRES_DB: synvora_dev
+    ports:
+      - '127.0.0.1:55432:5432'
+    volumes:
+      - dev-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U synvora -d synvora_dev']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  postgres-test:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_USER: synvora
+      POSTGRES_PASSWORD: ${SYNVORA_TEST_PASSWORD:?Set SYNVORA_TEST_PASSWORD}
+      POSTGRES_DB: synvora_test
+    ports:
+      - '127.0.0.1:55433:5432'
+    volumes:
+      - test-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U synvora -d synvora_test']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  dev-data:
+  test-data:

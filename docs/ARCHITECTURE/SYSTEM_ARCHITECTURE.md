@@ -931,3 +931,17 @@ Following review and approval of this document:
 10. Establish the testing foundation.
 
 These activities should proceed through small, reviewable Git checkpoints.
+
+## Assignment 002A implementation boundary (10 October 2026)
+
+The Express composition root uses PostgreSQL repositories and attempt services.
+Controllers validate shared Zod contracts and translate HTTP; services authorize
+attempt access, enforce expiration/stages, and coordinate transactional evidence.
+Repositories own parameterized SQL and locked atomic persistence. Parser and
+interpreter code stays API-local; shared packages expose public contracts only.
+
+Dedicated Docker databases are `synvora_dev` and `synvora_test`, with separate
+containers/volumes/credentials. Explicit migrations precede API startup. Attempt
+secrets, seven-day expiry, migration history, and bounded expression behavior are
+documented in ADR-011–013. The cleanup schedule is documented but not installed.
+Report generation/endpoints and frontend implementation belong to later assignments.

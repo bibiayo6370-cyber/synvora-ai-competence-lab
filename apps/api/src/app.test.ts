@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
 import { healthResponseSchema } from "@synvora/shared";
-import { app } from "./app.js";
+import { createApp } from "./app.js";
+const app = createApp();
 
 describe("Express HTTP API", () => {
   it("returns a valid health response with the expected service identity", async () => {

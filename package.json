@@ -7,6 +7,7 @@
     "node": ">=24.21.0"
   },
   "scripts": {
-    "check": "pnpm -r run check"
+    "check": "pnpm --filter @synvora/shared run build && pnpm -r run check",
+    "build": "pnpm --filter @synvora/shared run build && pnpm --filter @synvora/api run build"
   }
 }
