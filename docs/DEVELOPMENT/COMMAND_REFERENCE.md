@@ -513,4 +513,80 @@ rejected expression 422, and safe-but-failing validation 200. Reflection can com
 a failing technical attempt after safe evaluation. Current draft must match the
 latest evaluated validation. Investigation/reflection/AI declaration are unassessed.
 Only public example feedback and aggregate fixture counts are returned. No report
-endpoint, UI, automated SOLO inference, or mastery scoring is implemented.
+endpoint, automated SOLO inference, or mastery scoring is implemented by the API.
+
+## Assignment 002B — learner web application
+
+Run from repository root with approved frontend dependencies:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm run check
+pnpm run build
+pnpm --filter @synvora/web run test
+```
+
+Web dev/build/test build shared exports first. Web check includes application tests
+and Vite/Vitest configurations. Root build includes shared, API and web. Backend
+and shared dependency versions remain unchanged.
+
+Start in two terminals with the existing configured development database:
+
+```bash
+pnpm --filter @synvora/api run dev
+```
+
+```bash
+pnpm run dev:web
+```
+
+Visit http://127.0.0.1:5173. Vite proxies `/api` to localhost:8000 without path
+rewrites. For built assets, run `pnpm --filter @synvora/web run preview` and visit
+http://127.0.0.1:4173 with the API still running. Frontend servers bind to localhost
+and fail if their fixed port is occupied. No backend CORS changes are required.
+Existing database setup remains separate; these commands do not run migrations.
+
+### Human browser smoke (pending until actually executed)
+
+1. Read the session notice. Start, submit a prediction and confirm it locks.
+   No reference output appears until Reveal reference result.
+2. Reveal and continue to investigation. Explain arguments and save. Save `total`
+   as the expression. Validate `total/0`: verify rejection feedback, focused input,
+   preserved text and retry without advancement.
+3. Validate `total`: safe evaluation with failing checks permits reflection.
+   Enter reflection and optional AI note; Edit/revalidate and return, confirming
+   those unsaved drafts remain intact.
+4. Reject `total/0` again at reflect: reflection continuation disappears. Revalidate
+   `total`, return and complete. Confirm evidence-only completion and report deferral.
+5. Refresh at Run, Investigate, Validate, Reflect and Completion. Persisted state
+   resumes without unlocking prediction or hiding revealed reference. Change a
+   submitted expression without submitting, refresh, and confirm only the saved
+   draft returns; the notice must have warned that unsubmitted edits can be lost.
+6. Toggle browser Network Offline while submitting. Verify session/draft preservation,
+   restore network and Check saved progress before retry. Do not export request headers.
+7. Remove only `synvora.attempt.v1` in browser Storage and refresh: no recovery is
+   promised. For inaccessible-session testing, change only its attempt ID to an
+   unused valid UUID and refresh: the scoped entry clears, unrelated data remains,
+   and Start again is offered. Never copy/log the secret.
+8. To provoke the actual server's 409 without backend changes: while at Reflect with
+   typed reflection, use browser Network edit/resend on an earlier modification PUT
+   to save `total + 0` as the draft. Retain authorization internally; do not export
+   headers. Submit reflection from the stale UI. Confirm REVALIDATION_REQUIRED,
+   preserved reflection and expression feedback; revalidate and complete. This is
+   test-only conflict injection, not an ordinary learner step.
+9. Check 320 px/mobile and desktop widths, keyboard navigation, labels, visible
+   focus, error announcements and internal code scrolling without page overflow.
+
+Record browser/version, date, actual steps/results and failures in the verification
+record. jsdom tests do not establish browser smoke. Database resets, credential
+exports and public deployment are excluded. Browser automation belongs to 002C.
+
+### Mounted-drive test limitation
+
+On this workspace's /mnt/c mount, jsdom cold import exceeded Vitest's fixed worker
+startup timeout. Frontend tests passed on a byte-identical native Linux copy under
+/tmp/synvora-002b-verify. Keep WSL checkouts on native Linux storage for dependable
+test startup; the /home project path here is a symlink to the Windows mount.
+No toolchain source was patched. Native-copy verification commands/results are
+recorded in ASSIGNMENT_002B_VERIFICATION.md; ordinary mounted-drive pnpm frontend
+test runs did not pass. This does not replace the pending human browser smoke.

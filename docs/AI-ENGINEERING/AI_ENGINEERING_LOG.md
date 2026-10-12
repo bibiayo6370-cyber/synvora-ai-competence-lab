@@ -233,3 +233,138 @@ Docker configuration, or architecture change. Prior implementation remains
 uncommitted; no Git history operations performed. Daily cleanup remains
 documented but unscheduled. Human acceptance pending. Full command results and
 limitations are recorded in ASSIGNMENT_002A_VERIFICATION.md.
+
+## 11 October 2026 — Assignment 002B learner frontend
+
+**Human authority:** Approved reviewed conversational/file-level plan and frontend
+specification, with credentials-only sessionStorage, work-preserving reconciliation,
+complete vertical slice and dependency compatibility clarifications. Implementation
+is limited to web source/tooling/tests and approved documentation. Backend/shared
+source, schemas, manifests and migrations remain unchanged; no Playwright/reporting.
+
+**Contribution:** Created React/Vite/Tailwind web workspace and minimal source-owned
+shadcn/Radix primitives. Shared contracts drive forms and typed API boundary. 422
+validation envelopes update the snapshot and preserve expression text. Explicit
+reveal, immutable prediction, safe-but-failing reflection, actionable revalidation,
+completion honesty and session loss/recovery are implemented. Dirty drafts stay
+in memory and are never overwritten by older snapshots; unsaved-work copy view,
+refresh warning and scoped storage notices make retention/access limits explicit.
+
+**Dependency decision:** Checked Node 24.21.0, pnpm 12.10.1, TypeScript 7.0.2,
+Vitest 5.0.3 and shared Zod 4.6.5, then registry engines/peers before installation.
+React 19.3.0, Vite 8.3.3, Tailwind 4.3.3, RHF 7.89.0 and resolver 5.9.1 selected.
+All existing lockfile resolutions and API/shared importer entries were retained;
+frontend optional peers have new separate contexts. pnpm's multi-document lockfile
+required corrections during preservation; final frozen installation passed.
+
+**Validation so far:** Root check/build passed. Existing backend suites: shared 14,
+API unit 46, database/HTTP 14, compiled restart 2 passed. Existing isolated database
+and restart cleanup authorization used; no migration or database reset performed.
+Mounted-drive frontend tests timed out during worker startup without executing
+cases. Direct jsdom import took 107315 ms, exceeding the fixed worker allowance.
+A native /tmp copy of identical source/dependencies is being prepared for actual
+frontend verification; final results will be recorded below and in the verification
+record. No backend/shared toolchain patch or package downgrade was made.
+
+**Browser limitation:** No usable browser/connector available. Manual real-backend
+smoke is pending human execution with Command Reference steps; no browser results
+are fabricated. Human acceptance and any Git checkpoint remain outstanding.
+
+**Final automated evidence:** Native-copy frontend Vitest: 49 tests in 5 files
+passed (22.46 seconds). All 48 web source/config files matched repository bytes.
+Native application and config TypeScript checks passed. Full root build passed;
+web JS 124.35 kB gzip. Combined actual suites: 125 tests passed (49 native-copy
+frontend plus 76 workspace backend/shared). Mounted frontend pnpm test startup
+remains a documented filesystem limitation: one forks and two threads runs timed
+out before cases. No modified Vitest/toolchain code or browser automation used.
+
+Final source/config whitespace, scope and original lockfile-resolution checks
+passed. Backend/shared/infrastructure files unchanged. The Command Reference
+contains manual real-backend smoke steps; that verification and human acceptance
+remain pending. No staging, commits, pushes, merges or Git-history changes.
+
+**Final review correction:** Readable existing credentials now resume even if
+sessionStorage writes are denied, while creation remains disabled. Added regression
+and reran all frontend tests: **50 passed in 5 files**, 15.92 seconds on the identical
+native copy. Combined final suites: **126 passed** (50 frontend plus 76 backend/shared).
+Final root check passed. Final web build and Git-status review follow this correction.
+
+Final corrected web build passed with application/test/config checks; JS 124.41 kB
+gzip. Initial compilation exposed a panel naming collision and generic-schema
+comparison error, both corrected before passing builds. No native frontend test
+case failed. Final byte comparison, scope, no-Playwright and whitespace checks
+passed. Git status understood: five tracked modifications, new web/verification
+files and the two preserved planning documents. Browser smoke and human acceptance
+remain pending; no commit/push/history operation performed.
+
+## 12 October 2026 — Assignment 002B Targeted Correction 001
+
+**Human request:** Six focused human browser tests passed; refresh recovery notice
+incorrectly claimed that unsaved edits had been kept. Correct only message context
+and add regression coverage, preserving approved storage/state/draft behavior.
+
+**Contribution:** Initial restoration now warns that changes not submitted before
+refreshing may have been lost. In-page reconciliation uses checked/preserved wording
+only when dirty drafts remain after the unchanged pure merge; clean checks make no
+preservation claim. Confirmed submissions retain their saved confirmation. Added
+one hook regression and strengthened refresh, outage and lost-response UI tests.
+
+**Actual validation:** Native Linux workaround, byte-identical web sources: 51
+frontend tests passed in 5 files (36.35 seconds); application/configuration TypeScript
+checks and Vite production build passed. No correction test failure. Exact commands
+and five changed files are in the 002B verification addendum. Correction diff and
+whitespace checks passed. Earlier backend results were not rerun or relabeled.
+
+**Outcome/limits:** Wording correction ready for human review. No additional browser
+execution claimed; mounted-drive startup limitation unchanged. Credentials-only
+sessionStorage, reducer/merge and server authority unchanged. No backend/shared,
+dependency, migration or Playwright changes; no staging, commit, push or history work.
+
+## 12 October 2026 — Assignment 002B final verification and Git handoff
+
+**Human authority:** Reviewer examined API client, session handling, coordinator
+and state reducer; recovery-message correction accepted for final verification.
+Six focused browser scenarios supplied with environment and actual observations.
+No redesign, backend/shared modification, Playwright, scoring or Git operation
+authorized.
+
+**Review:** Existing regressions explicitly cover initial refresh restoration,
+preserved dirty drafts during in-page reconciliation and neutral clean-check
+feedback. Uncertain mutations are not automatically replayed; GET reconciliation
+and explicit retry preserve drafts. Source review documented limits: GET can
+precede a late POST commit, so explicit retry may record another validation; evidence
+upserts avoid duplicate type rows but do not provide request idempotency or revision
+ordering. Creation-response loss cannot recover an unreturned secret. No source
+or protocol redesign attempted.
+
+**Human browser evidence:** Chrome on Windows 11, web 127.0.0.1:5173 / API
+127.0.0.1:8000 with PostgreSQL, 12 October 2026 WAT; browser version not recorded.
+Reported PASS: (1) start/prediction locking; (2) reference reveal/investigation;
+(3) expression rejection/correction to 5/5 checks; (4) reflection/completion/refresh;
+(5) unsaved-work warning and restoration of submitted state; (6) lost-session
+credentials return to Challenge. Scenario 5's functional behavior passed, but
+corrected wording still needs browser recheck. Horizontal code scroll was minor
+usability feedback. Browser 409 conflict, full keyboard and mobile acceptance
+were not independently verified. These are human-reported results based on direct
+execution/screenshots reviewed in that session, not agent-run or Playwright evidence.
+Full six-scenario observations are recorded in the verification addendum.
+
+**Actual automated results:** Repository root checks and production builds passed;
+shared 14, API unit 46, database/HTTP 14, compiled restart 2 passed. Concurrent
+native frontend run: 48 passed, 3 timed out at 15 seconds. Unchanged complete suite
+rerun after repository jobs: all 51 passed (21.86 seconds). Native application/config
+TypeScript checks passed. Final passing suites total 127 tests; source-copy equality
+verified for all 48 web files. Earlier interrupted command output was not counted.
+Repository pnpm pre-run verification emitted sandboxed store-lock warnings but
+check/build/shared-test scripts completed successfully with installed dependencies.
+No new install/lockfile result is claimed. Detailed commands/timings/locations and
+initial failures are in ASSIGNMENT_002B_VERIFICATION.md.
+
+**Scope and outcome:** Only verification record and this log modified this turn;
+source/contracts/manifest/config hashes unchanged. Database regression isolation
+and cleanup hooks passed; restart removed only its own newly created smoke attempt.
+No migrations, resets or unrelated-data changes. Git status understood; main tracks
+origin/main, prior implementation remains uncommitted. Diff and whitespace checks
+passed. Remaining items: browser wording recheck, stated browser coverage gaps,
+non-idempotent delivery and mounted/loaded-system test limitations. Final human Git
+authorization pending. No staging, commit, push, merge or history changes.

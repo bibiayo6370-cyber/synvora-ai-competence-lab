@@ -8,7 +8,7 @@ This repository contains the SYNVORA platform implementation together with its s
 
 ## Project Status
 
-The shared health contract and Express HTTP testing foundation are established. Assignment 002A adds the PostgreSQL-backed attempt lifecycle and bounded expression validation; implementation acceptance is pending human review.
+Assignment 002A provides the PostgreSQL-backed attempt lifecycle and bounded expression validation. Assignment 002B adds the learner-facing React journey; frontend acceptance and real-browser verification are pending human review.
 
 The foundational Git repository, GitHub remote, pnpm workspace, TypeScript base configuration, and AI-assisted engineering rules have been established.
 
@@ -249,5 +249,40 @@ Docker Compose provisions separate `synvora_dev` and `synvora_test` services.
 Build shared before API, apply explicit migrations, and follow the setup/test/cleanup
 commands in `docs/DEVELOPMENT/COMMAND_REFERENCE.md` section 13. Local `.env` files
 are ignored and required. Daily cleanup is documented but not scheduled.
-Frontend and competence-report implementation remain later checkpoints.
+Assignment 002B implements the frontend; competence reporting remains a later checkpoint.
 Implementation acceptance requires human review and the recorded verification results.
+
+## Assignment 002B learner application
+
+The React application implements Challenge → Predict → Run → Investigate → Modify
+→ Validate → Reflect → Completion against the existing API. Completion confirms
+evidence capture; competence reporting and next-step guidance belong to 002C.
+
+After installing the workspace dependencies, start the existing configured API
+and the web application in separate terminals:
+
+```bash
+pnpm --filter @synvora/api run dev
+pnpm run dev:web
+```
+
+Open http://127.0.0.1:5173. Vite proxies `/api` to the local API on port 8000.
+Existing dedicated Docker databases and schema must already be available; frontend
+startup does not provision databases or run migrations. See the Command Reference
+for the approved database setup procedure.
+
+Only `{attemptId, secret}` is stored under `synvora.attempt.v1` in sessionStorage.
+Seven-day server retention does not guarantee seven-day browser access. Closing
+the tab/browser can lose access, and there is no secret recovery. Only submitted
+evidence survives refresh. Unsaved drafts stay in memory through recoverable
+errors and panel changes, remain marked unsaved, and can be copied from the
+unsaved-work section. Refresh can discard them.
+
+```bash
+pnpm run check
+pnpm run build
+pnpm --filter @synvora/web run test
+```
+
+Full results, dependency versions, scope limitations and the human browser-smoke
+checklist are in `docs/AI-ENGINEERING/ASSIGNMENT_002B_VERIFICATION.md`.
