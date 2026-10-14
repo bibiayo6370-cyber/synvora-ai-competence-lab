@@ -7,6 +7,7 @@ export function attemptRoutes(service: AttemptService) {
   router.use((_req, res, next) => { res.set("Cache-Control", "no-store"); next(); });
   router.post("/", controller.create);
   router.get("/:id", controller.get);
+  router.get("/:id/report", controller.report);
   router.post("/:id/prediction", controller.prediction);
   router.post("/:id/reveal", controller.reveal);
   router.post("/:id/investigation", controller.investigation);

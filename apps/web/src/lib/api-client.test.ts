@@ -2,8 +2,25 @@ import { describe, it, expect, vi } from "vitest";
 import { ApiClient } from "./api-client.js";
 import { ApiError, TransportError } from "./api-errors.js";
 import { challenge, json, session, snapshot } from "../test/contract-fixtures.js";
+import { reportFixture } from "../test/report-fixture.js";
 const evaluated = { status: "evaluated", passed: 0, total: 5, allPassed: false, example: { passed: false, actual: 0, expected: 4050 } };
 describe("API trust boundary", () => {
+  it("gets the typed report using the bearer header, no body or credential URL", async () => {
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(json(reportFixture()));
+    await new ApiClient(fetcher).report(session);
+    const [url, options] = fetcher.mock.calls[0];
+    expect(url).toBe(`/api/attempts/${session.attemptId}/report`); expect(String(url)).not.toContain(session.secret);
+    expect(options?.method).toBe("GET"); expect(options?.body).toBeUndefined();
+    expect(new Headers(options?.headers).get("Authorization") === `Bearer ${session.secret}`).toBe(true);
+    expect(options?.credentials).toBe("omit"); expect(options?.cache).toBe("no-store");
+  });
+  it("rejects a schema-valid report belonging to another attempt", async () => {
+    const report = reportFixture(); report.learningJourney.id = "00000000-0000-4000-8000-000000000099";
+    await expect(new ApiClient(vi.fn<typeof fetch>().mockResolvedValue(json(report))).report(session)).rejects.toMatchObject({ kind: "protocol" });
+  });
+  it("rejects unsupported scores and invalid report bodies", async () => {
+    await expect(new ApiClient(vi.fn<typeof fetch>().mockResolvedValue(json({ ...reportFixture(), competenceScore: 100 }))).report(session)).rejects.toMatchObject({ kind: "protocol" });
+  });
   it.each([
     ["get", "GET", "", undefined], ["prediction", "POST", "/prediction", { prediction: "1" }],
     ["reveal", "POST", "/reveal", {}], ["investigation", "POST", "/investigation", { explanation: "Reason" }],

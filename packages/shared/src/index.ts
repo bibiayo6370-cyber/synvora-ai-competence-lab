@@ -15,3 +15,4 @@ export * from "./schemas/challenge.schema.js";
 export * from "./schemas/attempt.schema.js";
 export * from "./schemas/validation.schema.js";
 export * from "./schemas/error.schema.js";
+export * from "./schemas/report.schema.js";

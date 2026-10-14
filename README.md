@@ -8,7 +8,7 @@ This repository contains the SYNVORA platform implementation together with its s
 
 ## Project Status
 
-Assignment 002A provides the PostgreSQL-backed attempt lifecycle and bounded expression validation. Assignment 002B adds the learner-facing React journey; frontend acceptance and real-browser verification are pending human review.
+Assignment 002A provides the PostgreSQL-backed attempt lifecycle and bounded expression validation. Assignment 002B adds the learner-facing React journey. Assignment 002C adds the deterministic seven-section report; all seven Phase D human browser scenarios and the subsequent mobile-header checks have been accepted.
 
 The foundational Git repository, GitHub remote, pnpm workspace, TypeScript base configuration, and AI-assisted engineering rules have been established.
 
@@ -249,14 +249,14 @@ Docker Compose provisions separate `synvora_dev` and `synvora_test` services.
 Build shared before API, apply explicit migrations, and follow the setup/test/cleanup
 commands in `docs/DEVELOPMENT/COMMAND_REFERENCE.md` section 13. Local `.env` files
 are ignored and required. Daily cleanup is documented but not scheduled.
-Assignment 002B implements the frontend; competence reporting remains a later checkpoint.
+Assignment 002B implements the learner frontend; Assignment 002C adds evidence reporting.
 Implementation acceptance requires human review and the recorded verification results.
 
 ## Assignment 002B learner application
 
 The React application implements Challenge → Predict → Run → Investigate → Modify
 → Validate → Reflect → Completion against the existing API. Completion confirms
-evidence capture; competence reporting and next-step guidance belong to 002C.
+evidence capture; Assignment 002C now presents the protected evidence report and next-step guidance.
 
 After installing the workspace dependencies, start the existing configured API
 and the web application in separate terminals:
@@ -286,3 +286,24 @@ pnpm --filter @synvora/web run test
 
 Full results, dependency versions, scope limitations and the human browser-smoke
 checklist are in `docs/AI-ENGINEERING/ASSIGNMENT_002B_VERIFICATION.md`.
+
+## Assignment 002C evidence report
+
+Completion automatically retrieves the protected seven-section report. It displays
+recorded technical results, evidence-linked observations, submitted explanations,
+unverified AI declarations, assessment limitations, and the server's next learning step.
+Qualitative reasoning and SOLO remain unassessed; no competence percentage or mastery
+rating is assigned. Completed attempts remain read-only.
+
+Report loading/retry is separate from learner submissions. A failed report read keeps
+saved completion evidence and newer in-memory drafts available; Retry report repeats
+only GET. Refresh refetches using the existing credentials-only browser session.
+Inaccessible report access clears the scoped credentials/report; local evidence can
+still be copied. No report or evidence is stored in browser storage.
+
+Phase C automated verification is complete. The human reviewer accepted all seven
+Phase D browser scenarios and the subsequent header checks at 320px, 375px and
+768px, including keyboard smoke verification. These are human observations, not
+automated browser results or exhaustive accessibility/security certification.
+See `docs/AI-ENGINEERING/ASSIGNMENT_002C_VERIFICATION.md` and the Command
+Reference's Phase C checklist. Playwright remains deferred for this capstone.

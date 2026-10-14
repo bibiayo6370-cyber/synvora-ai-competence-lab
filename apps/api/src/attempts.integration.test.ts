@@ -126,7 +126,7 @@ describe("PostgreSQL-backed HTTP lifecycle", () => {
     const completed = await request(app).post(`${path}/reflection`).set("Authorization", auth).send({ reflection: "I checked the arithmetic." }).expect(200);
     expect(completed.body.stage).toBe("completed");
     await request(app).post(`${path}/validation`).set("Authorization", auth).send({ expression: "total" }).expect(409);
-    await request(app).get(`${path}/report`).set("Authorization", auth).expect(404);
+    await request(app).get(`${path}/report`).set("Authorization", auth).expect(200).expect("Cache-Control", "no-store");
   });
   it("allows finite-but-failing reflection, bounds history, and preserves verbatim SQL-like text", async () => {
     const { path, auth, id } = await ready();
@@ -138,6 +138,8 @@ describe("PostgreSQL-backed HTTP lifecycle", () => {
     expect(result.body.evidence.find((item: {type: string}) => item.type === "reflection").content).toBe(text);
     expect(result.body.validationCount).toBe(101);
     expect(result.body.validations[0].result.allPassed).toBe(false);
+    const report = await request(app).get(`${path}/report`).set("Authorization", auth).expect(200);
+    expect(report.body.technicalPerformance).toMatchObject({ recordedExecutions: 101, retainedExecutions: 100, historyTruncated: true });
   });
   it.each(["", " \t\n "])("keeps blank draft and validation submissions from advancing %#", async expression => {
     const value = await start(); const path = `/api/attempts/${value.id}`, auth = `Bearer ${value.secret}`;

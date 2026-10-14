@@ -4,6 +4,7 @@ import { ApiClient, type Challenge, type ReflectionRequest } from "../../lib/api
 import { ApiError } from "../../lib/api-errors.js";
 import { checkStorage, clearSession, readSession, writeSession, type AttemptSession } from "../../lib/attempt-session.js";
 import { initialJourney, journeyReducer, mergeDrafts, savedValue, type DraftKey, type Panel } from "./attempt-state.js";
+import { useReport } from "../report/use-report.js";
 export type Operation = "prediction" | "reveal" | "investigation" | "modification" | "validation" | "reflection";
 type Pending = { operation: Operation; text: string; reflection?: ReflectionRequest; before: AttemptSnapshot };
 function accepted(snapshot: AttemptSnapshot, pending: Pending): boolean {
@@ -162,7 +163,9 @@ export function useAttempt(api: ApiClient) {
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
   }, [state.drafts]);
-  return { ...state, challenge, busy, error, notice, storageWarning, storageReady, hasSession, needsReconcile,
+  const sessionVersion = useCallback(() => generation.current, []);
+  const reportState = useReport(api, session.current, hasSession && !busy && !needsReconcile && state.snapshot?.stage === "completed", loseSession, sessionVersion);
+  return { ...state, ...reportState, challenge, busy, error, notice, storageWarning, storageReady, hasSession, needsReconcile,
     create, submit, retry, edit: (key: DraftKey, text: string) => dispatch({ type: "edit", key, value: text }),
     showPanel: (panel: Panel) => { setError(""); dispatch({ type: "panel", panel }); } };
 }

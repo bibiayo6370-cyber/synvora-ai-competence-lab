@@ -37,6 +37,26 @@ code, .expression { font-family: ui-monospace, SFMono-Regular, Consolas, monospa
 .evidence-text { white-space: pre-wrap; overflow-wrap: anywhere; }
 .skip-link { position: absolute; top: -5rem; left: 1rem; padding: .5rem; background: white; z-index: 2; }
 .skip-link:focus { top: 1rem; }
+.report { min-width: 0; }
+.report-header { padding-block: 1rem; border-bottom: 1px solid #ccd8cc; }
+.report-badge { display: inline-block; padding: .3rem .65rem; border: 1px solid #b9cabd; border-radius: .4rem; background: #edf3ed; font-size: .85rem; font-weight: 600; }
+.report-nav { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; font-size: .9rem; }
+.report a { color: #225240; text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+.report h3 { font-size: 1.3rem; margin-top: 0; }
+.report h4 { font-size: 1.05rem; margin-block: .6rem; }
+.competency-grid, .findings-grid, .report-meta { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+.competency-item { min-width: 0; border-top: 1px solid #d4ddd3; padding-top: 1rem; }
+.report ul, .validation-history { padding-left: 1.3rem; }
+.report li { margin-block: .6rem; overflow-wrap: anywhere; }
+.evidence-links { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .85rem; }
+.evidence-target { scroll-margin-top: 1rem; overflow-wrap: anywhere; }
+.evidence-target:target { background: #edf3ed; outline: 2px solid #648471; outline-offset: .4rem; }
+.report-meta dt { font-weight: 650; }
+.report-meta dd { margin: .2rem 0 0; }
+.technical-count { font-size: 1.4rem; }
+.next-step { border-left: 4px solid #12382e; background: #f0f5ed; }
+@media (min-width: 700px) { .competency-grid, .findings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .report-meta { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 850px) { .journey-grid { grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); align-items: start; } }
+@media (max-width: 699px) { .topbar { flex-direction: column; align-items: flex-start; gap: .25rem; } .topbar > .help { max-width: 100%; overflow-wrap: anywhere; } }
 @media (max-width: 400px) { .shell { padding: .8rem; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }

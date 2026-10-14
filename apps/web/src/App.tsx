@@ -24,6 +24,6 @@ export function App({ api = client }: { api?: ApiClient }) {
       {j.challenge && !j.hasSession && <ChallengeOverview challenge={j.challenge} start={() => void j.create()}
         disabled={j.busy || !j.storageReady} restarting={Boolean(j.error || j.snapshot)} />}
       {j.snapshot && <AttemptJourney journey={j} />}
-    </main><footer className="help">Evidence is recorded here. Assessment and next-step guidance are forthcoming.</footer>
+    </main><footer className="help">Reports describe recorded technical evidence. Qualitative reasoning and SOLO understanding remain unassessed.</footer>
   </div></>;
 }

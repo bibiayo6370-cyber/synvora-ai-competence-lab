@@ -5,6 +5,29 @@ import { writeSession } from "../../lib/attempt-session.js";
 import { session } from "../../test/contract-fixtures.js";
 import { atValidate, mockApi } from "../../test/mock-api.js";
 import { useAttempt } from "./use-attempt.js";
+it("keeps newer reflection drafts when completion succeeds but report loading fails", async () => {
+  writeSession(sessionStorage, session); const server = mockApi(atValidate());
+  let release!: () => void; const gate = new Promise<void>(resolve => { release = resolve; });
+  const api = new ApiClient(async (url, options) => {
+    if (String(url).endsWith("/report")) throw new Error("report offline");
+    const response = await server.fetcher(url, options);
+    if (String(url).endsWith("/reflection")) await gate;
+    return response;
+  });
+  const { result } = renderHook(() => useAttempt(api));
+  await waitFor(() => expect(result.current.busy).toBe(false));
+  await act(() => result.current.submit("validation", "total"));
+  act(() => result.current.edit("reflection", "Submitted reflection"));
+  let submitting!: Promise<void>;
+  act(() => { submitting = result.current.submit("reflection", "", { reflection: "Submitted reflection" }); });
+  await waitFor(() => expect(server.calls.some(call => call.path.endsWith("/reflection"))).toBe(true));
+  act(() => result.current.edit("reflection", "Newer unsaved reflection"));
+  await act(async () => { release(); await submitting; });
+  await waitFor(() => expect(result.current.reportError).toContain("could not be loaded"));
+  expect(result.current.snapshot?.stage).toBe("completed"); expect(result.current.needsReconcile).toBe(false);
+  expect(result.current.drafts.reflection).toEqual({ value: "Newer unsaved reflection", dirty: true });
+  expect(server.calls.filter(call => call.path.endsWith("/reflection"))).toHaveLength(1);
+});
 it("protects a newer unsaved expression even when a reflection panel is requested", async () => {
   writeSession(sessionStorage, session);
   const server = mockApi(atValidate()), api = new ApiClient(server.fetcher);

@@ -590,3 +590,137 @@ test startup; the /home project path here is a symlink to the Windows mount.
 No toolchain source was patched. Native-copy verification commands/results are
 recorded in ASSIGNMENT_002B_VERIFICATION.md; ordinary mounted-drive pnpm frontend
 test runs did not pass. This does not replace the pending human browser smoke.
+
+## Assignment 002C Phase A — shared report contracts
+
+Phase A adds contracts and review documents only. It does not add a report route,
+backend builder, frontend view, database migration, or dependency. From repository
+root, ordinary shared verification remains:
+
+```bash
+pnpm --filter @synvora/shared run test
+pnpm --filter @synvora/shared run check
+pnpm --filter @synvora/shared run build
+git diff --check
+git status --short --branch
+```
+
+When avoiding pnpm's automatic pre-run dependency verification, use the already
+installed local tools directly from `packages/shared` (no installation):
+
+```bash
+node ./node_modules/vitest/vitest.mjs run --reporter=verbose
+node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.test.json
+node ./node_modules/typescript/bin/tsc -p tsconfig.json
+```
+
+These direct commands exercise the shared test/check/build scripts' underlying
+tools. Shared output is ignored compiled ESM; do not stage `dist`. Phase A shared
+tests run in the repository, not the earlier frontend native-copy workaround.
+
+Human 002C refinement supersedes the earlier browser-automation expectation for
+this capstone: Playwright is deferred; real-backend human browser acceptance and
+an actual demonstration are required in later authorized phases. The seven-section
+visual report remains mandatory. Phase A cannot establish browser/report acceptance.
+
+## Assignment 002C Phase B — backend report verification
+
+The API provides `GET /api/attempts/:id/report` for completed, unexpired attempts
+using the existing bearer header. It returns shared `competenceReportSchema` and
+`Cache-Control: no-store`. Incomplete authorized attempts return 409 REPORT_NOT_READY;
+malformed requests 400, malformed/missing bearer 401, unknown/wrong-secret/expired
+attempts 404, and internal evidence/output failures sanitized 500. No credential
+belongs in a URL, command history, copied headers, or verification log.
+
+Build shared first with the commands above. From `apps/api`, direct installed-tool
+commands avoid installation or pnpm pre-run dependency verification:
+
+```bash
+node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.test.json
+node ./node_modules/typescript/bin/tsc -p tsconfig.json
+node ./node_modules/vitest/vitest.mjs run
+SYNVORA_DB_TESTS=1 node --env-file=.env ./node_modules/vitest/vitest.mjs run
+```
+
+HTTP tests require localhost socket permission. Database tests require both existing
+dedicated databases and ignored `.env`; they create new random schemas only in
+synvora_test, apply the existing migration inside those schemas, and remove their
+own schemas in cleanup. They verify development data is unchanged. Do not reset
+databases, apply migrations to public schemas, or print environment values.
+No new migration or dependency is introduced by reporting. Results and any initial
+failures are recorded in ASSIGNMENT_002C_VERIFICATION.md. Phase B does not implement
+the visual report or establish human browser acceptance; stop before Phase C.
+
+## Assignment 002C Phase C — visual report and browser acceptance
+
+From apps/web, use existing installed tools without installing anything:
+
+```bash
+node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.json
+node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.node.json
+node ./node_modules/vite/bin/vite.js build
+node ./node_modules/vitest/vitest.mjs run
+```
+
+Mounted Vitest again failed worker startup before executing tests. The established
+/tmp/synvora-002b-verify copy was reused: synchronize apps/web source/config and
+current compiled packages/shared exports, preserve installed dependencies, exclude
+node_modules/dist from web source comparison and exclude all environment files.
+Run the same Vitest command from the native apps/web directory and verify source/
+configuration/shared-output equality against the repository. Do not install, patch
+Vitest, change timeouts, or claim that native results prove mounted-worker startup.
+Exact results and the corrected StrictMode response fixture are in the verification record.
+
+### Real-backend human checklist — Phase D accepted; reproduction steps
+
+The human reviewer accepted all seven Phase D scenarios. The steps below remain
+reproduction guidance; their eight items are not a renumbering of the seven human
+scenarios. Specific confirmations and evidence limitations are recorded in
+ASSIGNMENT_002C_VERIFICATION.md: Test 3 conflict/recovery, Test 4 report-only
+failure/recovery with an explicit **Retry report** click, Test 5 session loss after
+full credential removal, Test 6 literal HTML-like text, and Test 7 basic mobile/
+keyboard checks. The later header correction passed at 320px, 375px and 768px
+with keyboard smoke verification. These are human observations, not Playwright
+results or exhaustive accessibility/security certification.
+
+Use the existing configured PostgreSQL and current shared/API builds. Start API and
+web with the README commands; browse http://127.0.0.1:5173 with API on port 8000.
+Do not run new migrations, reset containers/databases, or export bearer headers.
+
+1. Complete Challenge 001 with a passing expression. Confirm automatic report
+   loading, all seven titled sections, genuine check counts, pending qualitative/
+   SOLO assessment, limitations, evidence links, and server next-step wording.
+2. In a fresh anonymous session, safely validate a failing expression such as
+   `total`, then complete reflection. Confirm the report shows the actual server
+   counts and technical gaps, and guidance refers to further practice/new attempts.
+   The completed attempt must offer no expression/reflection mutation controls.
+3. Repeat rejection/correction (`total/0` then a permitted safe expression) and the
+   existing section's REVALIDATION_REQUIRED conflict procedure before completion.
+   Confirm preserved drafts, correct latest evidence, and eventual report display.
+4. For a report-only outage, block only `*/api/attempts/*/report` using browser
+   request blocking before completion; keep the other API requests online. Confirm
+   submitted completion evidence remains visible. Unblock and click Retry report.
+   Inspect request methods/counts without exporting headers: only GET repeats,
+   never reflection/validation/creation. This is deliberate network-failure injection.
+5. Refresh a completed attempt. Confirm protected state/report retrieval, preserved
+   submitted evidence, and truthful restored-progress wording. Inspect key names
+   only: synvora.attempt.v1 contains just attemptId/secret, no persisted report/evidence.
+6. Remove only the scoped session entry and refresh: return to Challenge without
+   protected recovery. Wrong/inaccessible credentials should clear only that entry.
+   Report 401/404 handling preserves already loaded completion text for copying.
+   Actual expiry browser verification requires an already expired authorized fixture;
+   otherwise record it pending. Do not change browser time and claim server expiry.
+7. In a dedicated test attempt, submit HTML-like reflection text, such as
+   `<b>untrusted reflection</b>`. Confirm literal text, no interpreted markup. If an
+   AI declaration is supplied, it must be labeled unverified; absence proves no use status.
+8. Navigate sections and evidence links by keyboard, check focus and feedback,
+   readable desktop presentation, and 320–375 px layouts without page overflow.
+   Inconclusive/missing evidence has automated coverage; a browser check requires
+   an existing approved fixture. Do not tamper with completed data to manufacture one.
+
+Record browser/version, date/timezone, scenario observations, screenshots without
+credentials, and failures. Distinguish real server checks from deliberate injection
+and unavailable fixtures. Earlier 002B human results are historical evidence, not
+Phase C report acceptance. Current Phase D acceptance is separately human-confirmed;
+no additional browser execution or recorded demonstration is claimed by this
+documentation reconciliation.

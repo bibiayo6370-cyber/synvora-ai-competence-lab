@@ -368,3 +368,238 @@ origin/main, prior implementation remains uncommitted. Diff and whitespace check
 passed. Remaining items: browser wording recheck, stated browser coverage gaps,
 non-idempotent delivery and mounted/loaded-system test limitations. Final human Git
 authorization pending. No staging, commit, push, merge or history changes.
+
+## 12 October 2026 — Assignment 002C Phase A contracts and assessment drafts
+
+**Human authority:** Conditionally approved technical plan; Phase A implementation
+only after execution mode enabled. Human refinements require evidence-only overall
+summary, recorded-execution counts, inconclusive inconsistent final evidence,
+narrow supported findings, mandatory seven-section visual report in later phases,
+read-only completed-attempt guidance, and real-backend human browser acceptance.
+Playwright is deferred for this capstone. Stop before Phase B.
+
+**Contribution:** Drafted Challenge 001 assessment rubric, 002C report specification,
+and proposed ADR-014. Added strict shared Zod report contracts, inferred types,
+public exports, and focused contract tests. Reused existing public attempt/validation
+schemas. Contracts require eight unique competency entries, unassessed qualitative
+statuses, null SOLO level, unverified AI declaration matching saved text, bounded
+sections, resolvable evidence references, and execution-count consistency. Final
+technical findings require the latest matching evaluated run; missing/rejected/
+mismatched or missing-latest evidence is inconclusive. Unknown score/credential/
+private-fixture fields are rejected. Missing evidence can use an actual attempt
+reference rather than fabricated artifacts. Updated Command Reference with the
+direct installed-tool verification commands and the human browser-test refinement.
+
+**Actual verification:** All commands ran in the repository's packages/shared,
+not the frontend native Linux copy. Installed Node 24.21.0, TypeScript 7.0.2,
+Vitest 5.0.3, and existing Zod used; no install or dependency changes.
+
+| Command | Captured result |
+|---|---|
+| `node ./node_modules/vitest/vitest.mjs run` | Intermediate suite: 47 passed in 3 files, 21.49 seconds. |
+| `node ./node_modules/vitest/vitest.mjs run --reporter=verbose` | Final suite after two additional privacy/strength regressions: 49 passed in 3 files, 25.89 seconds; 35 new report tests plus 14 existing shared tests. |
+| `node ./node_modules/typescript/bin/tsc --noEmit -p tsconfig.test.json` | Passed, including final test source. |
+| `node ./node_modules/typescript/bin/tsc -p tsconfig.json` | Passed; ignored compiled NodeNext ESM/declarations emitted. |
+| Repository `git diff --check` and explicit new-file whitespace scan | Passed; final scan/diff review includes new untracked files. |
+
+The first launched focused-test/typecheck sessions were unavailable after a tool
+session update; they were restarted as requested. Their uncaptured results are not
+counted as passes or test failures. All captured test runs passed. Direct local
+tools avoided pnpm pre-run dependency verification and any installation side effect.
+
+**Review limitations:** Schemas validate structure and internal evidence consistency,
+not the semantic truth of arbitrary prose or guidance. Future builder wording must
+be narrowly authored and verified separately. The rubric is uncalibrated and no
+trusted review is operational. Report versions, field shape, missing-latest policy,
+and guidance precedence await Phase A human review. ADR-014 remains proposed.
+Computed reports and their endpoint/UI exist only as specification in this phase;
+no report generation or browser acceptance is claimed.
+
+**Scope/outcome:** Eight reviewable files: three new assessment/ADR/specification
+documents, new shared schema and tests, shared index, this log, and Command Reference.
+No backend/frontend source, existing contract definition, database/migration,
+container, dependency, Playwright, reviewer, AI evaluator, or Git-history change.
+Daily cleanup and existing retry/provenance limitations remain unchanged. Phase A
+is ready for human review; Phase B is not started. No staging, commit, or push.
+
+## 12 October 2026 — Assignment 002C Phase A human corrections
+
+**Human decision:** Eight Phase A files reviewed and conditionally approved;
+ADR-014 accepted subject to contract corrections. Phase B backend implementation
+authorized once corrections pass; stop afterward before Phase C.
+
+**Corrections:** Enforced guidance code precedence: inconclusive, failing final
+checks, passing checks with differing prediction, otherwise further explanation.
+Positive coded findings cannot be growth gaps; negative/unassessed findings cannot
+be strengths. Retained existing unique descending bounded sequence checks without
+requiring contiguous missing history. Added only impossible aggregate/public-example
+checks: five passes cannot include a failed example; zero passes cannot include a
+passed example. Intermediate aggregates permit either outcome. Existing attempt and
+validation DTO definitions and lifecycle behavior are unchanged.
+
+**Captured verification in repository packages/shared:** Direct installed Vitest
+full suite: 60 passed in 3 files (83.95 seconds), including 46 report regressions.
+Direct TypeScript no-emit check and compiled build passed; git diff --check passed.
+No installation, native-copy run, database operation, or dependency change.
+After these gates, changed ADR-014 status to Accepted and clarified the report
+specification. Phase B implementation now proceeds under explicit human authority.
+
+## 12 October 2026 — Assignment 002C Phase B protected backend report
+
+**Human authority:** Implement deterministic builder, protected service/GET route,
+shared response validation, unit/HTTP/PostgreSQL tests after Phase A corrections;
+stop before Phase C. No frontend, migrations, dependencies, reviewer/AI workflow,
+scoring, archival, or Git-history operations authorized.
+
+**Contribution:** Pure Challenge 001 report builder from saved public snapshots,
+fixed narrow observation/guidance wording, evidence-linked findings, eight unassessed
+competencies, null SOLO, and unverified AI declarations. Added ReportService using
+existing AttemptService.get authorization/expiry, thin controller handler and
+GET /api/attempts/:id/report. Incomplete attempts return 409 REPORT_NOT_READY;
+input/auth/access errors retain 400/401/404 semantics; internal evidence/output
+failures are sanitized 500. Existing no-store middleware applies. No expression
+execution/reevaluation or mutation during report reads. Added 36 API unit/HTTP and
+seven report database tests; updated old deferred-report assertion and 100-run
+report coverage in existing lifecycle integration tests.
+
+**Actual verification in repository:** Shared 60 tests passed (83.95 seconds),
+check/build passed before API consumption. API check/build initially found TS2352
+in the inferred observation dictionary; explicit typed initializer corrected it;
+both reruns passed. Sandboxed API suite: 72 passed, ten HTTP failures solely
+listen EPERM (453.88 seconds). Authorized localhost retry: 82 passed in eight files
+(616.06 seconds). Authorized database suite: 21 passed in three files (228.97 seconds).
+Final passing suites: 163 tests. No native-copy, frontend, or browser result claimed.
+
+Compiled NodeNext report smoke passed with inline synthetic public evidence.
+Its first invocation tried importing a test fixture intentionally excluded from
+production dist and failed module resolution; corrected invocation changed no
+source/configuration. Existing compiled-process restart suite was not rerun;
+database pool/app recreation verified report reproducibility/persistence.
+Diff/whitespace, scope, and unsafe report-execution/dependency scans passed.
+
+**Isolation/privacy:** Existing migration 001 applied only in new random synvora_test
+schemas for integration setup, then those schemas cleaned by their existing helper.
+No public migration CLI, database reset, container change, or unrelated deletion.
+Development counts unchanged and test IDs absent; before/after completed snapshots,
+database lifecycle fields, and child counts showed no report-read mutation.
+Secrets/digests/private fixtures/raw errors absent from report responses. No real
+credentials printed. Retention and existing non-idempotent delivery unchanged.
+
+**Documentation/outcome:** Updated accepted ADR/specification/rubric status and
+Command Reference; created ASSIGNMENT_002C_VERIFICATION.md with exact results,
+initial failures, execution locations, 19-file inventory since 002B, and limitations.
+Authored wording awaits human acceptance. Qualitative evidence remains unassessed;
+no competence/mastery percentages or SOLO level. Phase B ready for review; mandatory
+visual report, frontend tests, and real-backend human browser acceptance belong to
+Phase C, which is not started. No staging, commit, push, merge, rebase, or reset.
+
+## 12 October 2026 — Assignment 002C Phase C learner visual report
+
+**Human authority:** Phase B provisionally accepted after verification review;
+frontend integration, seven-section visual report, memory-only recovery, focused
+tests, and documentation authorized. Stop after automated verification for human
+review. Backend/shared redesign, migrations, dependencies, reviewer/AI assessment,
+dashboard expansion, Playwright, deployment, and Git history excluded.
+
+**Contribution:** Typed protected report GET with shared-schema/attempt-ID checks;
+private memory-only report hook with abort, session, and coordinator-generation
+guards; separate read-only retry/error/loading state. Completion automatically
+loads/refetches the report and retains saved evidence if it fails. No mutations
+replayed. Seven sections, actual technical counts, evidence/focus links, server
+guidance, limitations, unassessed SOLO/reasoning, and unverified AI disclosures use
+existing UI primitives and responsive styling. Learner text remains plain React
+text. Existing storage module, reducer, draft merge, lifecycle, and restore wording
+unchanged. Updated old completion assertions, mock endpoint/public fixtures, and
+25 report regressions. README/specification/Command Reference describe actual scope
+and the required real-backend human acceptance checklist.
+
+**Captured verification:** Repository web application/config TypeScript checks
+passed; final Vite build passed (161 modules, JS 129.16 kB gzip, CSS 2.88 kB gzip,
+21.94 seconds; nonfatal plugin-timing notice). Mounted Vitest executed no tests:
+thread-worker startup timeout at 60.18 seconds. Reused established native Linux
+copy, synchronized final source/config and shared compiled exports, no installation
+or environment-file copying. First native suite: 75 passed / one failed (66.51
+seconds); StrictMode mock reused a consumed Response. Corrected fixture to produce
+a fresh Response per request. Unchanged application then passed all 76 frontend
+tests in eight files (23.25 seconds, isolated rerun). Native application/config
+typechecks passed. All 55 web files and 24 compiled shared files byte-identical;
+installed dependency versions match. No test timeout/toolchain change.
+
+**Scope/security evidence:** Report retries are GET-only; credentials-only scoped
+session storage remains unchanged. Late old-attempt/secret responses are ignored;
+401/404 clears report/scoped access while prior local completion text can be copied.
+HTML/instruction-like text is escaped; no score/AI metric or unsupported SOLO result.
+Final scope/diff/whitespace/generated-artifact checks passed. Phase C changes 22
+files; full 002C unstaged inventory is 37 files including Phase A/B. Backend/shared,
+dependency/lockfile, migration, and infrastructure code unchanged in this phase.
+No database/container operations. Earlier Phase B 163-test results are historical,
+not rerun or counted as new Phase C verification.
+
+**Outcome and limits (historical Phase C checkpoint; superseded for browser
+acceptance by the D3 confirmation below):** Phase C ready for human review. Real-backend browser,
+keyboard/mobile/screen-reader acceptance and actual demonstration pending; no pass
+fabricated. Memory-only evidence/report access, mounted-worker startup, secret loss,
+fixed expiry, retry duplication/provenance, unassessed qualitative reasoning, and
+unscheduled cleanup limitations persist. Checklist and exact file/command results
+are in ASSIGNMENT_002C_VERIFICATION.md and Command Reference. No staging, commit,
+push, merge, rebase, reset, or deployment. Stop for human acceptance.
+
+## 14 October 2026 — Approved mobile application-header adjustment
+
+**Authority/scope:** Human reported Phase D browser acceptance complete and
+approved this narrow mobile-header improvement. Changed only header responsive
+CSS and this engineering record; no API, database, assessment, report, dependency,
+or Git-history changes. Existing Assignment 002C review changes remain intact.
+
+**Implementation:** Below 700px, the existing semantic header uses a column flex
+layout with left alignment and the established .25rem spacing. The subtitle sits
+beneath SYNVORA, with a maximum-width and wrapping guard. Existing larger-screen
+horizontal layout, typography, colors, and markup remain unchanged.
+
+**Actual verification:** Initial commands could not find Node in the shell PATH;
+reran with /home/jtd/.nvm/versions/node/v24.21.0/bin/node. Repository frontend
+application and tooling TypeScript checks passed (tsc --noEmit for tsconfig.json
+and tsconfig.node.json). Repository production Vite build passed: 161 modules,
+15.91 seconds; CSS 8.71 kB / 2.92 kB gzip, JS 420.92 kB / 129.16 kB gzip.
+Full frontend Vitest suite passed on the established native Linux copy at
+/tmp/synvora-002b-verify/apps/web: 76 tests in eight files, 56.75 seconds.
+Synchronized without installing packages or copying environment files; all 55
+web source/config files and 24 compiled shared files matched repository bytes.
+No additional implementation-mirroring CSS test was introduced. Git whitespace
+check passed. No backend/shared tests needed for this CSS-only adjustment.
+
+**Limitations/review (historical Codex checkpoint; subsequent human acceptance
+is recorded below):** No Chrome, Chromium, or Firefox executable was available
+for an actual responsive browser check. The mobile rule covers 320px and 375px,
+but visual rendering and absence of horizontal overflow await human recheck at
+those widths and a desktop width of at least 700px. Prior Phase D acceptance
+is human-reported and does not establish acceptance of this subsequent change.
+No commits, pushes, merges, or Git-history modifications. Stop for human review.
+
+
+## 14 October 2026 — Assignment 002C-D3 human verification reconciliation
+
+**Human confirmation:** All seven Phase D real-backend browser scenarios completed
+and accepted. Test 3 conflict/recovery completed with the previously documented
+draft-preservation evidence limitations retained. Test 4 report-only failure and
+recovery passed; the reviewer explicitly confirmed clicking Retry report. Test 5
+session loss passed after credentials were fully removed. Test 6 literal HTML-like
+learner text and Test 7 basic mobile/keyboard checks passed. The subsequent D1
+header correction passed at 320px, 375px and 768px, plus keyboard smoke verification.
+These confirmations supersede earlier pending-browser statements; earlier failures,
+automated results and checkpoint decisions remain historical evidence.
+
+**Codex contribution/scope:** Reconciled current acceptance wording in README, the
+002C report specification/verification record, Command Reference and this log.
+Preserved reproduction steps and separated human observations from Codex automated
+tests. No new browser execution, request-trace verification, testing, production
+code, schema, dependency, database or infrastructure change. No exhaustive draft,
+accessibility/security certification, automated SOLO grading, verified AI use or
+recorded capstone demonstration is inferred. Browser version and execution times
+are not invented; this date records reconciliation, not browser execution.
+
+**Verification:** Inspected the documentation correction diff and ran git diff
+--check successfully. Existing provenance, retry, expiry, secret-loss, retention,
+unassessed reasoning and unscheduled-cleanup limitations remain. No staging,
+commit, push, merge, rebase, reset, stash or Git configuration/history change.
+Stop for human review and separate final Git authorization.

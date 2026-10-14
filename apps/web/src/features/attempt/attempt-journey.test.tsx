@@ -33,7 +33,8 @@ it("completes the real-contract journey with rejection recovery and safely faili
   await click("Continue to reflection"); await fill("Reflection", "I still need to explain the discount.");
   await fill("AI-use declaration (optional)", "I checked an assistant suggestion."); await click("Record reflection and complete");
   expect(await screen.findByRole("heading", { name: "Evidence recorded" })).toBeInTheDocument();
-  expect(screen.getByText(/Competence report forthcoming/)).toBeInTheDocument();
+  expect(await screen.findByRole("heading", { name: "Competence report" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "SOLO Understanding Profile" })).toBeInTheDocument();
   expect(server.current().evidence.some(item => item.type === "ai_use_declaration")).toBe(true);
   expect(server.calls.filter(call => call.path === "/api/attempts")).toHaveLength(1);
   expect(Object.keys(JSON.parse(sessionStorage.getItem(SESSION_KEY)!)).sort()).toEqual(["attemptId", "secret"]);

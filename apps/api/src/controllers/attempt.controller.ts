@@ -5,6 +5,7 @@ import { attemptIdSchema, attemptSnapshotSchema, createAttemptSchema, createAtte
   emptyRequestSchema, validationResponseSchema } from "@synvora/shared";
 import { ApplicationError } from "../http/errors.js";
 import type { AttemptService } from "../services/attempt.service.js";
+import { ReportService } from "../services/report.service.js";
 
 function credentials(req: Request) {
   const header = req.get("Authorization");
@@ -13,7 +14,8 @@ function credentials(req: Request) {
   return { id: attemptIdSchema.parse(req.params.id), secret: match[1] };
 }
 export class AttemptController {
-  constructor(private readonly service: AttemptService) {}
+  private readonly reports: ReportService;
+  constructor(private readonly service: AttemptService) { this.reports = new ReportService(service); }
   create: RequestHandler = async (req, res) => {
     createAttemptSchema.parse(req.body);
     res.set("Cache-Control", "no-store").status(201).json(createAttemptResponseSchema.parse(await this.service.create()));
@@ -21,6 +23,10 @@ export class AttemptController {
   get: RequestHandler = async (req, res) => {
     const { id, secret } = credentials(req);
     res.json(attemptSnapshotSchema.parse(await this.service.get(id, secret)));
+  };
+  report: RequestHandler = async (req, res) => {
+    const { id, secret } = credentials(req);
+    res.json(await this.reports.get(id, secret));
   };
   private submit<T>(schema: z.ZodType<T>, operation: (id: string, secret: string, body: T) => Promise<unknown>): RequestHandler {
     return async (req, res) => {

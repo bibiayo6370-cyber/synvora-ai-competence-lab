@@ -1,5 +1,6 @@
 import { attemptSnapshotSchema, validationResponseSchema, type AttemptSnapshot, type ValidationResult } from "@synvora/shared";
 import { challenge, json, session, snapshot } from "./contract-fixtures.js";
+import { reportFixture } from "./report-fixture.js";
 const stamp = "2026-10-11T08:00:00.000Z";
 export function mockApi(initial: AttemptSnapshot = snapshot()) {
   let current = structuredClone(initial);
@@ -14,6 +15,10 @@ export function mockApi(initial: AttemptSnapshot = snapshot()) {
     if (path === "/api/challenges/001") return json(challenge);
     if (path === "/api/attempts" && method === "POST") { current = snapshot(); return json({ attempt: current, accessSecret: session.secret }, 201); }
     if (path === `/api/attempts/${session.attemptId}`) return json(attemptSnapshotSchema.parse(current));
+    if (path === `/api/attempts/${session.attemptId}/report` && method === "GET") {
+      if (new Headers(options?.headers).get("Authorization") !== `Bearer ${session.secret}`) return error(401, "UNAUTHORIZED", "Provide the attempt bearer secret.");
+      return current.stage === "completed" ? json(reportFixture(current)) : error(409, "REPORT_NOT_READY", "Complete this attempt first.");
+    }
     const body = JSON.parse(options?.body as string ?? "{}");
     const operation = path.split("/").at(-1);
     if (operation === "prediction") {

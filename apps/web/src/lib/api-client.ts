@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { attemptIdSchema, attemptSnapshotSchema, challengeSchema, createAttemptSchema, createAttemptResponseSchema,
   predictionSchema, investigationSchema, modificationSchema, emptyRequestSchema, validationRequestSchema,
-  validationResponseSchema, reflectionSchema, errorResponseSchema } from "@synvora/shared";
+  validationResponseSchema, reflectionSchema, errorResponseSchema, competenceReportSchema } from "@synvora/shared";
 import type { AttemptSession } from "./attempt-session.js";
 import { ApiError, TransportError } from "./api-errors.js";
 export type Challenge = z.infer<typeof challengeSchema>;
@@ -46,6 +46,11 @@ export class ApiClient {
   create() { return this.request("/api/attempts", "POST", createAttemptResponseSchema,
     createAttemptSchema.parse({ challengeId: "001", challengeVersion: "0.1" }), undefined, undefined, [201]); }
   get(session: AttemptSession, signal?: AbortSignal) { return this.request(this.path(session), "GET", attemptSnapshotSchema, undefined, session, signal); }
+  async report(session: AttemptSession, signal?: AbortSignal) {
+    const report = await this.request(this.path(session, "/report"), "GET", competenceReportSchema, undefined, session, signal);
+    if (report.learningJourney.id !== session.attemptId) throw new TransportError("protocol");
+    return report;
+  }
   prediction(session: AttemptSession, prediction: string) { return this.request(this.path(session, "/prediction"), "POST", attemptSnapshotSchema, predictionSchema.parse({ prediction }), session); }
   reveal(session: AttemptSession) { return this.request(this.path(session, "/reveal"), "POST", attemptSnapshotSchema, emptyRequestSchema.parse({}), session); }
   investigation(session: AttemptSession, explanation: string) { return this.request(this.path(session, "/investigation"), "POST", attemptSnapshotSchema, investigationSchema.parse({ explanation }), session); }

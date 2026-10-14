@@ -16,7 +16,7 @@ export function AttemptJourney({ journey: j }: { journey: AttemptCoordinator }) 
   useEffect(() => { target.current?.focus(); }, [stage, j.panel]);
   if (!j.snapshot || !j.challenge) return null;
   let content;
-  if (stage === "completed") content = <CompletionStage snapshot={j.snapshot} />;
+  if (stage === "completed") return <Card><div ref={target} tabIndex={-1} aria-label="Current learner stage" className="stack"><CompletionStage journey={j} /></div></Card>;
   else if (j.panel === "reference" && stage === "investigate") content = <><h2>Observe the reference result</h2><ReferenceResult snapshot={j.snapshot} /><Button onClick={() => j.showPanel("stage")}>Continue to investigation</Button></>;
   else if (stage === "validate" || (stage === "reflect" && j.panel === "validation")) content = <ValidateStage journey={j} />;
   else if (stage === "predict") content = <PredictStage journey={j} />;
